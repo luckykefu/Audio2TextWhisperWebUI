@@ -1,4 +1,7 @@
-
+import torch
+import whisper
+from whisper.utils import get_writer
+import os
 
 
 def audio2text(

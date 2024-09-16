@@ -1,7 +1,12 @@
 import argparse
+import os
 from src.audio2text import audio2text
 from src.log import logger
 import gradio as gr
+# 获取当前文件的目录
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+temp_dir = os.path.join(dir_path, "temp")
 
 with gr.Blocks() as demo:
     with gr.TabItem("Audio"):
@@ -12,13 +17,13 @@ with gr.Blocks() as demo:
                     label="模型路径", value="whisper_models/small.pt"
                 )
                 with gr.Row():
-                    prompt = gr.Textbox(label="Prompt", value="", lines=2)
+                    prompt = gr.Textbox(label="Prompt", value="中文", lines=2)
                     output_format = gr.Dropdown(
                         choices=["txt", "vtt", "srt", "tsv", "json", "all"],
                         label="输出格式",
                         value="all",
                     )
-                    output_dir1 = gr.Textbox(label="输出文件夹", value="temp")
+                    output_dir1 = gr.Textbox(label="输出文件夹", value=temp_dir)
             with gr.Row():
                 audio_recognition_btn = gr.Button("识别")
 
