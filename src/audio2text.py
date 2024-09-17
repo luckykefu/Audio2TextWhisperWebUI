@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 
 def audio2text(
     audio_path,
-    model_path="whisper_models/small.pt",
+    model_path,
     prompt=None,
     output_format="all",
     output_dir="temp",
@@ -17,8 +17,17 @@ def audio2text(
     logger.info(f"Transcribing {audio_path}")
     # Load model
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    logger.info(f"Using device: {device}")
+    if not os.path.exists(audio_path):
+        logger.error(f"Audio file not found at {audio_path}")
+        return None
+
+    if not os.path.exists(model_path):
+        logger.error(f"Model file not found at {model_path}")
+        return None
 
     model = whisper.load_model(model_path).to(device)
+
     # Transcribe audio
     if prompt:
         result = model.transcribe(audio_path, initial_prompt=prompt)
@@ -26,9 +35,12 @@ def audio2text(
         result = model.transcribe(audio_path)
 
     os.makedirs(output_dir, exist_ok=True)
+    
     writer = get_writer(output_format, output_dir)
     writer(result, audio_path)
+
     logger.info(f"Transcription saved to {output_dir}")
+
     return result["text"]
 
 

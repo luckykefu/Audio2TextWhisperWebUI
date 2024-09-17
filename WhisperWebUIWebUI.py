@@ -21,6 +21,12 @@ os.chdir(script_dir)
 
 # 创建临时文件夹
 output_dir = os.path.join(script_dir, "output")
+whisper_models_dir = os.path.join(script_dir, "whisper_models")
+if os.path.exists(whisper_models_dir):
+    whisper_models = os.listdir(whisper_models_dir)
+    whisper_models_path = [
+        os.path.join(whisper_models_dir, model) for model in whisper_models
+    ]
 
 
 def main():
@@ -31,8 +37,10 @@ def main():
             with gr.TabItem("WhisperWebUI"):
                 with gr.Row():
                     audio_file_path5 = gr.Audio(label="上传音频文件", type="filepath")
-                    model_path = gr.Textbox(
-                        label="模型路径", value="whisper_models/small.pt"
+                    model_path = gr.Dropdown(
+                        choices=whisper_models_path,
+                        label="模型路径",
+                        value=whisper_models_path[0],
                     )
                     with gr.Row():
                         prompt = gr.Textbox(label="Prompt", value="中文", lines=2)
