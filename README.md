@@ -1,10 +1,8 @@
-# Audio2TextWhisper
+# WhisperWebUI
 
 ```python
-conda create -n whisper python=3.9
+conda create -n whisper python
 conda activate whisper
-pip install -U openai-whisper
 pip install -r requirements.txt
-python Audio2TextWhisperWebUI.py
 
 ```
