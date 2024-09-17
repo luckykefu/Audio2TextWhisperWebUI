@@ -2,6 +2,7 @@ import torch
 import whisper
 from whisper.utils import get_writer
 import os
+from src.log import logger
 
 
 def audio2text(
@@ -11,6 +12,7 @@ def audio2text(
     output_format="all",
     output_dir="temp",
 ):
+    logger.info(f"Transcribing {audio_path}")
     # Load model
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -24,4 +26,5 @@ def audio2text(
     os.makedirs(output_dir, exist_ok=True)
     writer = get_writer(output_format, output_dir)
     writer(result, audio_path)
+    logger.info(f"Transcription saved to {output_dir}")
     return result["text"]

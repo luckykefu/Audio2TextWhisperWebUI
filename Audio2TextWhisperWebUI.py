@@ -3,6 +3,7 @@ import os
 from src.audio2text import audio2text
 from src.log import logger
 import gradio as gr
+
 # 获取当前文件的目录
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
