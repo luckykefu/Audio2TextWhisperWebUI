@@ -2,7 +2,7 @@ import torch
 import whisper
 from whisper.utils import get_writer
 import os
-from src.log import get_logger
+from .log import get_logger
 
 logger = get_logger(__name__)
 
@@ -20,11 +20,11 @@ def audio2text(
     logger.info(f"Using device: {device}")
     if not os.path.exists(audio_path):
         logger.error(f"Audio file not found at {audio_path}")
-        return None
+        raise FileNotFoundError(f"Audio file not found at {audio_path}")
 
-    if not os.path.exists(model_path):
+    if not os.path.exists(model_path) or model_path.startswith("No model in "):
         logger.error(f"Model file not found at {model_path}")
-        return None
+        raise FileNotFoundError(f"Model file not found at {model_path}")
 
     model = whisper.load_model(model_path).to(device)
 
@@ -35,7 +35,7 @@ def audio2text(
         result = model.transcribe(audio_path)
 
     os.makedirs(output_dir, exist_ok=True)
-    
+
     writer = get_writer(output_format, output_dir)
     writer(result, audio_path)
 
