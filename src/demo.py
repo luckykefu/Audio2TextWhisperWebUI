@@ -11,7 +11,6 @@ os.makedirs(whisper_models_dir, exist_ok=True)
 whisper_models = os.listdir(whisper_models_dir)
 if whisper_models:
     whisper_models = [m for m in whisper_models if m.endswith(".pt")]
-    print(whisper_models)
 else:
     whisper_models = [f"No model in {whisper_models_dir}"]
 
