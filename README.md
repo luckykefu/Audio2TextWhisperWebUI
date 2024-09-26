@@ -1,8 +1,12 @@
 # WhisperWebUI
 
 ```python
-conda create -n whisper python
-conda activate whisper
-pip install -r requirements.txt
+conda create -n whisperwebui python -y
+
+conda activate whisperwebui
+
+pip install openai-whisper gradio torch colorama 
+
+python WhisperWebUI.py
 
 ```

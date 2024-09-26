@@ -10,7 +10,7 @@ os.makedirs(whisper_models_dir, exist_ok=True)
 
 whisper_models = os.listdir(whisper_models_dir)
 if whisper_models:
-    whisper_models = [m for m in whisper_models if m.endswith(".pt")]
+    whisper_models = [os.path.join(whisper_models_dir,m) for m in whisper_models if m.endswith(".pt")]
 else:
     whisper_models = [f"No model in {whisper_models_dir}"]
 
@@ -24,7 +24,7 @@ def demo_whisper():
             value=whisper_models[0],
         )
         with gr.Row():
-            prompt = gr.Textbox(label="Prompt", value="Chinese", lines=2)
+            prompt = gr.Textbox(label="Prompt", value="普通话", lines=2)
             output_format = gr.Dropdown(
                 choices=["txt", "vtt", "srt", "tsv", "json", "all"],
                 label="Output Format",
